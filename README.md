@@ -1,6 +1,7 @@
 # 对不起 React，我变成了你想要的样子
 
 上个星期的周会上，一个同事聊到能不能回归到 jquery 的时代，直接操纵 dom 来实现性能的优化，但是想到 jquery 代码恐怖的维护难度，这恐怕并不现实。而听到这一观点的时候，我的脑中便第一时间蹦出 [Solidjs](https://www.solidjs.com/) 的影子
+
 本文代码同步更新到[仓库](https://github.com/Flower-F/solidjs-examples)，你可以在 [starter](https://github.com/Flower-F/solidjs-examples/tree/starter) 分支直接获取配置好的开发环境
 
 # 什么是 Solidjs
@@ -16,7 +17,7 @@
 
 # 怎么用
 
-下面会通过一系列例子教会你快速入门 Solidjs，当然前提是你最好有一定的 React Hooks 使用经验
+下面会通过一系列例子教会你快速入门 Solidjs，当然前提是你最好有一定的 React Hooks 使用经验，这样你也能更直观地感受到 Solidjs 相比于 React 的优势
 
 ## Hello World
 
