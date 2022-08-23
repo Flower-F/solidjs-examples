@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "antfu.unocss",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode"
+  ]
+}
