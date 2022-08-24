@@ -233,7 +233,7 @@ const DynamicExample: Component = () => {
 };
 ```
 
-限于篇幅原因，关于基本使用的介绍就说这么多，其实这里还有很多 solid 的特性没有涉及到，比如 Error Boundary、Suspense 等等。感兴趣的朋友们可以自己去[官网教程](https://www.solidjs.com/tutorial/introduction_basics)查看。
+限于篇幅原因，关于基本使用的介绍就说这么多，其实这里还有很多 Solidjs 的特性没有涉及到，比如 Error Boundary、Suspense 等等。感兴趣的朋友们可以自己去[官网教程](https://www.solidjs.com/tutorial/introduction_basics)查看。
 
 # 如果没有 Solidjs，能使用 Solidjs 吗
 
@@ -245,7 +245,7 @@ Solidjs 虽然听起来好像哪里都很好，但是目前而言它有一个致
 
 整个库就只有一个[核心文件](https://github.com/nanxiaobei/solid-react/blob/main/src/index.tsx)，根据作者在掘金上发表的[文章](https://juejin.cn/post/7083566878085349384)，我们可以简单了解一下里面 useSignal 的实现原理。
 
-- 首先我们要弄明白为什么 Solidjs 中 createSignal 传回的第一个参数需要是一个 getter 函数，而不能像 React 一样只是简单地返回一个值。原因很简单，Solidjs 用的是静态模板，在静态模板之下函数不会像在 React 中动态 jsx 那样多次运行。因此要实现响应式，必须依赖于一些 js 现有的特性，比如说在 Vue2 中通过 defineProperty 拦截 data 中的属性，Vue3 中 通过 Proxy 拦截，所以代码要写成 this.xxx.value 的形式；另一种方式就是像 Solidjs 这样依赖于函数实现。
+- 首先我们要弄明白为什么 Solidjs 中 createSignal 传回的第一个参数需要是一个 getter 函数，而不能像 React 一样只是简单地返回一个值。原因很简单，Solidjs 用的是静态模板，在静态模板之下函数不会像在 React 中动态 jsx 那样多次运行。因此要实现响应式，必须依赖于一些 js 现有的特性，比如说在 Vue2 中通过 defineProperty 拦截 data 中的属性，Vue3 中 通过 Proxy 拦截，所以代码要写成 xxx.value 的形式；另一种方式就是像 Solidjs 这样依赖于函数实现。
 - 其次需要了解的是如何实现 value 的部分更新，这里用到的方法是将 value() 包装为一个组件，但是它只展示数据，从而利用组件的特性实现细粒度的更新
 
 ```tsx
