@@ -1,6 +1,6 @@
 import { Component, createEffect, createSignal } from 'solid-js';
 
-const Effect: Component = () => {
+const EffectExample: Component = () => {
   const [count, setCount] = createSignal(0);
   setInterval(() => setCount(count() + 1), 1000);
 
@@ -11,4 +11,4 @@ const Effect: Component = () => {
   return <div>hello world</div>;
 };
 
-export default Effect;
+export default EffectExample;

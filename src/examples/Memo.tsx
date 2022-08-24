@@ -1,4 +1,4 @@
-import { Component, createSignal } from 'solid-js';
+import { Component, createMemo, createSignal } from 'solid-js';
 
 function fibonacci(num: number): number {
   if (num <= 1) return 1;
@@ -6,9 +6,12 @@ function fibonacci(num: number): number {
   return fibonacci(num - 1) + fibonacci(num - 2);
 }
 
-const Memo: Component = () => {
+const MemoExample: Component = () => {
   const [count, setCount] = createSignal(10);
-  const fib = () => fibonacci(count());
+  const fib = createMemo(() => {
+    console.log('calculate');
+    return fibonacci(count());
+  });
 
   return (
     <div>
@@ -28,23 +31,8 @@ const Memo: Component = () => {
       <div>
         5. {fib()} {fib()} {fib()} {fib()} {fib()}
       </div>
-      <div>
-        6. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        7. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        8. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        9. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        10. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
     </div>
   );
 };
 
-export default Memo;
+export default MemoExample;

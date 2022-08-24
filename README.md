@@ -32,7 +32,7 @@ const App: Component = () => {
 
 Signals 实际上就是类比于 React 里面 state 的概念。只不过不同之处是它的返回参数第一个是一个 getter，第二个是一个 setter，两个都是函数
 ```tsx
-const Signal: Component = () => {
+const SignalExample: Component = () => {
   const [count, setCount] = createSignal(0);
   setInterval(() => setCount(count() + 1), 1000);
 
@@ -43,7 +43,7 @@ const Signal: Component = () => {
 更为神奇的是，这种响应式是可以传递的，这有点类似于 vue 中 computed/watch 的概念
 
 ```tsx
-const Signal: Component = () => {
+const SignalExample: Component = () => {
   const [count, setCount] = createSignal(0);
   const doubleCount = () => count() * 2;
 
@@ -62,7 +62,7 @@ const Signal: Component = () => {
 
 Effect 实际上就是类比于 React 里面 useEffect 的概念，但是它的使用更加符合直觉的编程思维。你不需要声明依赖，因为 Solidjs 自动帮你跟踪了
 ```tsx
-const Effect: Component = () => {
+const EffectExample: Component = () => {
   const [count, setCount] = createSignal(0);
   setInterval(() => setCount(count() + 1), 1000);
 
@@ -75,7 +75,7 @@ const Effect: Component = () => {
 ```
 
 ## Memo
-不要因为 React 的存在导致你一看到 memo 这个单词就害怕，事实上在 Solidjs 里面 memo 是一个完全**自动**的过程，你不需要自己手动对数据进行缓存。通过下面的例子你可以看到，你的计算结果将会被 Solidjs 缓存起来，因此页面整体的重新渲染速度会非常快
+不要因为 React 的存在导致你一看到 memo 这个单词就害怕，事实上在 Solidjs 里面 memo 也不需要你手动进行依赖追踪。通过 createMemo 方法，你的计算结果将会被 Solidjs 缓存起来，因此页面整体的重新计算速度会非常快
 
 ```tsx
 function fibonacci(num: number): number {
@@ -84,9 +84,12 @@ function fibonacci(num: number): number {
   return fibonacci(num - 1) + fibonacci(num - 2);
 }
 
-const Memo: Component = () => {
+const MemoExample: Component = () => {
   const [count, setCount] = createSignal(10);
-  const fib = () => fibonacci(count());
+  const fib = createMemo(() => {
+    console.log('calculate');
+    return fibonacci(count());
+  });
 
   return (
     <div>
@@ -106,21 +109,6 @@ const Memo: Component = () => {
       <div>
         5. {fib()} {fib()} {fib()} {fib()} {fib()}
       </div>
-      <div>
-        6. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        7. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        8. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        9. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
-      <div>
-        10. {fib()} {fib()} {fib()} {fib()} {fib()}
-      </div>
     </div>
   );
 };
@@ -128,7 +116,7 @@ const Memo: Component = () => {
 
 ## Show
 
-Show 就是一种条件渲染的方式，类似于 vue 中的 v-show
+Show 就是一种条件渲染方式，类似于 vue 中的 v-show
 
 ```tsx
 const ShowExample: Component = () => {
@@ -142,3 +130,96 @@ const ShowExample: Component = () => {
   );
 };
 ```
+
+## Switch
+
+除了 Show 之外，另一种条件渲染的方式叫做 Switch，表示根据不同的条件进行渲染
+
+```tsx
+const SwitchExample: Component = () => {
+  const [x, setX] = createSignal(7);
+
+  return (
+    <div>
+      <button onclick={() => setX(x() + 1)}>click me to +1</button>
+      <Switch fallback={<p>{x()} is between 5 and 10</p>}>
+        <Match when={x() > 10}>
+          <p>{x()} is greater than 10</p>
+        </Match>
+        <Match when={5 > x()}>
+          <p>{x()} is less than 5</p>
+        </Match>
+      </Switch>
+    </div>
+  );
+};
+```
+
+
+## For
+
+For 就是一种列表渲染方式，类似于 vue 中的 v-for
+
+```tsx
+const ForExample: Component = () => {
+  const [personList] = createSignal([
+    { id: '1', name: 'Tom' },
+    { id: '2', name: 'Amy' },
+    { id: '3', name: 'Jack' }
+  ]);
+
+  return (
+    <ul>
+      <For each={personList()}>
+        {(person, i) => (
+          <li>
+            {i() + 1}: {person.name}
+          </li>
+        )}
+      </For>
+    </ul>
+  );
+};
+```
+
+## Dynamic
+
+这个也就是我们平常所说的动态组件，该特性在 vue 和 react 中也都有相应的支持，这里不多做介绍。
+
+```tsx
+const DynamicExample: Component = () => {
+  const [selected, setSelected] = createSignal('red');
+
+  return (
+    <>
+      <select value={selected()} onInput={e => setSelected(e.currentTarget.value)}>
+        <For each={Object.keys(options)}>{color => <option value={color}>{color}</option>}</For>
+      </select>
+      <Dynamic component={options[selected() as keyof typeof options]} />
+    </>
+  );
+};
+```
+
+## Popup
+
+Popup 类似于 React 中的 createPortal，基本上就是完全为了弹窗组件设计的。通过 Popup 可以解决掉 z-index 有时候不生效，以及不方便维护的问题
+
+```tsx
+const DynamicExample: Component = () => {
+  const [selected, setSelected] = createSignal('red');
+
+  return (
+    <>
+      <select value={selected()} onInput={e => setSelected(e.currentTarget.value)}>
+        <For each={Object.keys(options)}>{color => <option value={color}>{color}</option>}</For>
+      </select>
+      <Dynamic component={options[selected() as keyof typeof options]} />
+    </>
+  );
+};
+```
+
+限于篇幅原因，关于基本使用的介绍就说这么多，其实这里还有很多 solid 的特性没有涉及到，感兴趣的朋友们可以自己去[官网教程](https://www.solidjs.com/tutorial/introduction_basics)查看。
+
+

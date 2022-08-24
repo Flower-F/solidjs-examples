@@ -1,6 +1,6 @@
 import { Component, createSignal } from 'solid-js';
 
-const Signal: Component = () => {
+const SignalExample: Component = () => {
   const [count, setCount] = createSignal(0);
   const doubleCount = () => count() * 2;
 
@@ -14,4 +14,4 @@ const Signal: Component = () => {
   );
 };
 
-export default Signal;
+export default SignalExample;
