@@ -23,7 +23,7 @@
 
 由图中可以看出，Solidjs 在性能方面几乎是碾压其他 Web 框架，甚至直逼原生 js。原因大致有以下几个方面：
 
-- 结合了 jsx 和模板的利弊。既保留了 jsx 语法的灵活性，利用了 React 庞大的社区生态，又通过一些模板语法，如上面提到的 Show、Switch、For 等等实现了编译时优化和按需引入。
+- 结合了 jsx 和模板的利弊。既保留了 jsx 语法的灵活性，利用了 React 庞大的社区生态，又通过一些模板语法，如下面即将提到的 Show、Switch、For 等等实现了编译时优化和按需引入。
 - 在真实 DOM 上直接做 diff。类似于 Svelte，Solidjs 通过直接在原生 DOM 节点上进行 diff 算法，略过新旧虚拟 DOM 树比较的中间步骤，从而实现了高性能。关于虚拟 DOM 带来的额外开销，以及为什么虚拟 DOM 在过去一直被错误地视为一种宝物，可以看 Svelte 官网的[这篇文章](https://svelte.dev/blog/virtual-dom-is-pure-overhead)。
 - Tree Shaking。无论是 Vue 还是 React，只要你用到了框架其中的某些功能，就需要将整个包进行全量打包，但是对于 Solidjs，它只会去打包你所使用到的部分，从而使得打包出来的代码体积非常轻量。
 
@@ -34,6 +34,7 @@
 ## Hello World
 
 这是一个无需解释的例子。
+
 ```tsx
 const App: Component = () => {
   return <div>hello world</div>;
@@ -43,6 +44,7 @@ const App: Component = () => {
 ## Signal
 
 Signals 实际上就是类比于 React 里面 state 的概念。只不过不同之处是它的返回参数第一个是一个 getter，第二个是一个 setter，两个都是函数。
+
 ```tsx
 const SignalExample: Component = () => {
   const [count, setCount] = createSignal(0);
@@ -73,6 +75,7 @@ const SignalExample: Component = () => {
 ## Effect
 
 Effect 实际上就是类比于 React 里面 useEffect 的概念，但是它的使用更加符合直觉的编程思维。你不需要声明依赖，因为 Solidjs 自动帮你跟踪了。
+
 ```tsx
 const EffectExample: Component = () => {
   const [count, setCount] = createSignal(0);
@@ -201,14 +204,14 @@ const ForExample: Component = () => {
 
 ```tsx
 const DynamicExample: Component = () => {
-  const [selected, setSelected] = createSignal('red');
+  const [selected, setSelected] = createSignal<keyof typeof options>('red');
 
   return (
     <>
-      <select value={selected()} onInput={e => setSelected(e.currentTarget.value)}>
+      <select value={selected()} onInput={e => setSelected(e.currentTarget.value as keyof typeof options)}>
         <For each={Object.keys(options)}>{color => <option value={color}>{color}</option>}</For>
       </select>
-      <Dynamic component={options[selected() as keyof typeof options]} />
+      <Dynamic component={options[selected()]} />
     </>
   );
 };

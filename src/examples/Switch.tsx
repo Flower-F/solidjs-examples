@@ -1,7 +1,7 @@
 import { Component, createSignal, Match, Switch } from 'solid-js';
 
 const SwitchExample: Component = () => {
-  const [x, setX] = createSignal(7);
+  const [x, setX] = createSignal(5);
 
   return (
     <div>

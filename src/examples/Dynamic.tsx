@@ -12,11 +12,11 @@ const options = {
 };
 
 const DynamicExample: Component = () => {
-  const [selected, setSelected] = createSignal('red');
+  const [selected, setSelected] = createSignal<keyof typeof options>('red');
 
   return (
     <>
-      <select value={selected()} onInput={e => setSelected(e.currentTarget.value)}>
+      <select value={selected()} onInput={e => setSelected(e.currentTarget.value as keyof typeof options)}>
         <For each={Object.keys(options)}>{color => <option value={color}>{color}</option>}</For>
       </select>
       {/* <Switch fallback={<BlueThing />}>
@@ -27,7 +27,7 @@ const DynamicExample: Component = () => {
           <GreenThing />
         </Match>
       </Switch> */}
-      <Dynamic component={options[selected() as keyof typeof options]} />
+      <Dynamic component={options[selected()]} />
     </>
   );
 };
