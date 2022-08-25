@@ -5,7 +5,7 @@ const SwitchExample: Component = () => {
 
   return (
     <div>
-      <button onclick={() => setX(x() + 1)}>click me to +1</button>
+      <button onClick={() => setX(x() + 1)}>click me to +1</button>
       <Switch fallback={<p>{x()} is between 5 and 10</p>}>
         <Match when={x() > 10}>
           <p>{x()} is greater than 10</p>

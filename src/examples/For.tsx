@@ -1,15 +1,15 @@
-import { Component, createSignal, For } from 'solid-js';
+import { Component, For } from 'solid-js';
+
+const personList = [
+  { id: '1', name: 'Tom' },
+  { id: '2', name: 'Amy' },
+  { id: '3', name: 'Jack' }
+];
 
 const ForExample: Component = () => {
-  const [personList] = createSignal([
-    { id: '1', name: 'Tom' },
-    { id: '2', name: 'Amy' },
-    { id: '3', name: 'Jack' }
-  ]);
-
   return (
     <ul>
-      <For each={personList()}>
+      <For each={personList}>
         {(person, i) => (
           <li>
             {i() + 1}: {person.name}
